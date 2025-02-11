@@ -1,0 +1,7 @@
+以下のような適当なコマンドで起動
+
+```
+$ docker run --interactive --tty --rm --volume $(pwd):/app --workdir /app --publish 8000:8000 python:alpine python -m http.server 8000
+```
+
+open http://localhost:8000
