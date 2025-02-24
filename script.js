@@ -22,6 +22,7 @@ const main = () => {
   // 初期化
   if (inputText) {
     textElement.textContent = inputText;
+    document.title = `${inputText} - ${document.title}`;
   }
   if (marquee === "true") {
     // マーキー表示
