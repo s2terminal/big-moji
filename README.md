@@ -5,3 +5,5 @@ $ docker run --interactive --tty --rm --volume $(pwd):/app --workdir /app --publ
 ```
 
 open http://localhost:8000?text=textパラメータに設定した文字列を大きく表示します
+
+http://localhost:8000/?marquee=true にするとスクロール表示します。
