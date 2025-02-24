@@ -18,12 +18,17 @@ const main = () => {
   // 要素取得
   const marquee = new URLSearchParams(window.location.search).get('marquee');
   const inputText = new URLSearchParams(window.location.search).get('text');
+  const inputFontColor = new URLSearchParams(window.location.search).get('fontcolor');
+  const inputBackgroundColor = new URLSearchParams(window.location.search).get('backgroundcolor');
   const textElement = document.querySelector(".resizable-text");
   // 初期化
   if (inputText) {
     textElement.textContent = inputText;
     document.title = `${inputText} - ${document.title}`;
   }
+  if (inputFontColor) { textElement.style.color = inputFontColor; }
+  if (inputBackgroundColor) { document.body.style.backgroundColor = inputBackgroundColor; }
+
   if (marquee === "true") {
     // マーキー表示
     textElement.classList.add("marquee-element");
