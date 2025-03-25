@@ -1,4 +1,4 @@
-const INITIAL_FONT_SIZE = 256; // 初期フォントサイズ ※CSS側の値と合わせること
+const INITIAL_FONT_SIZE = 1024; // 初期フォントサイズ ※CSS側の値と合わせること
 
 /**
  * フォントサイズをできるだけ大きくする
@@ -7,7 +7,13 @@ const INITIAL_FONT_SIZE = 256; // 初期フォントサイズ ※CSS側の値と
 const resizeText = (textElement) => {
   let fontSize = INITIAL_FONT_SIZE;
   textElement.style.fontSize = fontSize + "px";
-  const condition = () => textElement.scrollWidth > window.innerWidth || textElement.scrollHeight > window.innerHeight;
+  const isMarquee = textElement.classList.contains("marquee-element");
+  const condition = () => {
+    if (isMarquee) {
+      return textElement.offsetHeight > window.innerHeight;
+    }
+    return textElement.scrollWidth > window.innerWidth || textElement.scrollHeight > window.innerHeight;
+  };
   while (condition()) {
     fontSize -= 1;
     textElement.style.fontSize = fontSize + "px";
@@ -33,12 +39,11 @@ const main = () => {
     // マーキー表示
     textElement.classList.add("marquee-element");
     textElement.parentElement.classList.add("marquee-container")
-  } else {
-    // 1画面に収める
-    resizeText(textElement);
-    window.addEventListener("resize", () => resizeText(textElement)); // ウィンドウサイズ変更時に調整
-    window.addEventListener("load", () => resizeText(textElement)); // ページ読み込み時に調整
   }
+  // 1画面に収める
+  resizeText(textElement);
+  window.addEventListener("resize", () => resizeText(textElement)); // ウィンドウサイズ変更時に調整
+  window.addEventListener("load", () => resizeText(textElement)); // ページ読み込み時に調整
 };
 
 document.addEventListener("DOMContentLoaded", () => main());
