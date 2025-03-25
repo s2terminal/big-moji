@@ -18,4 +18,6 @@ jobs:
         env:
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_REVIEWER.EXTRA_INSTRUCTIONS: 日本語でおｋ
+          PR_REVIEWER.extra_instructions: 日本語でおｋ
+          PR_DESCRIPTION.extra_instructions: 日本語でおｋ
+          PR_CODE_SUGGESTIONS.extra_instructions: 日本語でおｋ
