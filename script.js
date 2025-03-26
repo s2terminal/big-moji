@@ -3,18 +3,19 @@ const INITIAL_FONT_SIZE = 1024; // 初期フォントサイズ ※CSS側の値�
 /**
  * フォントサイズをできるだけ大きくする
  * @param {HTMLElement} textElement テキスト要素
+ * @param {boolean} marquee マーキー表示かどうか
  */
-const resizeText = (textElement) => {
+const resizeText = (textElement, marquee) => {
   let fontSize = INITIAL_FONT_SIZE;
   textElement.style.fontSize = fontSize + "px";
-  const isMarquee = textElement.classList.contains("marquee-element");
   const condition = () => {
-    if (isMarquee) {
+    if (marquee) {
       return textElement.offsetHeight > window.innerHeight;
     }
-    return textElement.scrollWidth > window.innerWidth || textElement.scrollHeight > window.innerHeight;
+    return textElement.scrollHeight > window.innerHeight || textElement.scrollWidth > window.innerWidth;
   };
   while (condition()) {
+    if (fontSize <= 32) break;
     fontSize -= 1;
     textElement.style.fontSize = fontSize + "px";
   }
@@ -22,7 +23,7 @@ const resizeText = (textElement) => {
 
 const main = () => {
   // 要素取得
-  const marquee = new URLSearchParams(window.location.search).get('marquee');
+  const marquee = new URLSearchParams(window.location.search).get('marquee') === "true";
   const inputText = new URLSearchParams(window.location.search).get('text');
   const inputFontColor = new URLSearchParams(window.location.search).get('fontcolor');
   const inputBackgroundColor = new URLSearchParams(window.location.search).get('backgroundcolor');
@@ -35,15 +36,15 @@ const main = () => {
   if (inputFontColor) { textElement.style.color = inputFontColor; }
   if (inputBackgroundColor) { document.body.style.backgroundColor = inputBackgroundColor; }
 
-  if (marquee === "true") {
+  if (marquee) {
     // マーキー表示
     textElement.classList.add("marquee-element");
     textElement.parentElement.classList.add("marquee-container")
   }
   // 1画面に収める
-  resizeText(textElement);
-  window.addEventListener("resize", () => resizeText(textElement)); // ウィンドウサイズ変更時に調整
-  window.addEventListener("load", () => resizeText(textElement)); // ページ読み込み時に調整
+  resizeText(textElement, marquee);
+  window.addEventListener("resize", () => resizeText(textElement, marquee)); // ウィンドウサイズ変更時に調整
+  window.addEventListener("load", () => resizeText(textElement, marquee)); // ページ読み込み時に調整
 };
 
 document.addEventListener("DOMContentLoaded", () => main());
